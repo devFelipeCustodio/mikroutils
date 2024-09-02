@@ -1,7 +1,7 @@
 <?php
 
 require '../vendor/autoload.php';
-require 'zabbix_host_fetcher.php';
+require 'zabbix.php';
 
 use \RouterOS\Client;
 use \RouterOS\Config;
@@ -10,13 +10,13 @@ use \RouterOS\Query;
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->safeLoad();
 
-class ClientSearch
+class Search
 {
     private $clients = [];
     private $gateways;
     public function __construct()
     {
-        $zabbix = new ZabbixHostFetcher();
+        $zabbix = new Zabbix();
         $this->gateways = $zabbix->host_get(["output" => ["host"], "selectInterfaces" => ["ip"]]);
         foreach ($this->gateways as $gw) {
             $config = new Config([
@@ -39,7 +39,7 @@ class ClientSearch
         }
     }
 
-    public function findUserByPPPOE($value)
+    public function findUserByName($value)
     {
         $responses = [];
         $filtered = [];

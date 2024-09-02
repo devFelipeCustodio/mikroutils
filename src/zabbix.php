@@ -5,7 +5,7 @@ require '../vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->safeLoad();
 
-class ZabbixHostFetcher
+class Zabbix
 {
     private $url;
     private $token;

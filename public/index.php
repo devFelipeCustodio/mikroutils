@@ -1,5 +1,6 @@
 <?php 
-require '../src/client_search.php'; 
+require '../src/search.php'; 
+require '../src/client.php'; 
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +27,7 @@ require '../src/client_search.php';
         <div class="results">
             <?php if ($_GET['q'])
             {
-                $results = (new ClientSearch())->findUserByPPPOE($_GET['q']);
+                $results = (new Search())->findUserByName($_GET['q']);
                 // $results = [["gw_name" => "gw_test", "gw_ip" => "0.0.0.0",
                 // "name" => "teste@afinet.com.br", "address" => "0.0.0.0", 
                 // "caller_id" => "00:00:00:00:00:00", "uptime" => "0h00m00s"]];
@@ -52,7 +53,7 @@ require '../src/client_search.php';
                             <td class=\"address\">$address</td>
                             <td class=\"caller-id\">$caller_id</td>
                             <td class=\"uptime\">$uptime</td>
-                            <td><a href=\"/client.php?teste=aaa\"><i class=\"material-icons\">description</i></a></td>
+                            <td><a href=\"/client.php?gw=0.0.0.0&name=user@afinet.com.br\"><i class=\"material-icons\">description</i></a></td>
                         </tr>";  
                     }      
                 echo "</table>";
