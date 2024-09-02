@@ -1,0 +1,25 @@
+
+form {
+    display: flex;
+    justify-content: center;
+}
+
+.results {
+    height: 100%;
+}
+
+.input-field {
+    width: 100%;
+}
+
+.no-wrap {
+    white-space: nowrap;
+}
+
+.gw-name, .name, .address, .caller-id {
+    cursor: pointer;
+}
+
+.gw-name:hover, .name:hover, .address:hover, .caller-id:hover {
+    background-color: #EEE;
+}

@@ -1,0 +1,17 @@
+{
+    "name": "devfelipecustodio/mikroutils",
+    "require": {
+        "vlucas/phpdotenv": "^5.6",
+        "evilfreelancer/routeros-api-php": "^1.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Devfelipecustodio\\Mikroutils\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Felipe Custodio"
+        }
+    ]
+}
