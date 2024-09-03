@@ -2,7 +2,8 @@
     "name": "devfelipecustodio/mikroutils",
     "require": {
         "vlucas/phpdotenv": "^5.6",
-        "evilfreelancer/routeros-api-php": "^1.5"
+        "evilfreelancer/routeros-api-php": "^1.5",
+        "spatie/fork": "^1.2"
     },
     "autoload": {
         "psr-4": {
