@@ -32,7 +32,7 @@ class Search
                     "gw_ip" => $gw['ip'],
                     "instance" => new Client($config)
                 ]);
-            } catch (Exception $e ){
+            } catch (Exception $e) {
 
             }
 
@@ -57,12 +57,12 @@ class Search
 
         foreach ($responses as $response) {
             foreach ($response['results'] as $result) {
-                if (preg_match("/".$value."/i", $result['name'])) {
+                if (preg_match("/" . $value . "/i", $result['name'])) {
                     array_push(
                         $filtered,
                         [
                             'gw_name' => $response["gw_name"],
-                            'gw_ip' =>$response['gw_ip'],
+                            'gw_ip' => $response['gw_ip'],
                             'name' => $result['name'],
                             'address' => $result['address'],
                             'caller_id' => $result['caller-id'],
