@@ -6,7 +6,7 @@ require 'zabbix.php';
 use \RouterOS\Client;
 use \RouterOS\Config;
 use \RouterOS\Query;
-use Spatie\Fork\Fork;
+use \React\Async;
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->safeLoad();
@@ -22,19 +22,20 @@ class Search
         foreach ($this->gateways as $gw) {
             $config = new Config(
                 [
-                'host' => $gw["ip"],
-                'user' => $_ENV["LOGIN"],
-                'pass' => $_ENV["PASSWORD"],
-                'port' => 8728,
-                'attempts' => 1
+                    'host' => $gw["ip"],
+                    'user' => $_ENV["LOGIN"],
+                    'pass' => $_ENV["PASSWORD"],
+                    'port' => 8728,
+                    'attempts' => 1
                 ]
             );
             try {
                 array_push(
-                    $this->clients, [
-                    "gw_name" => $gw['name'],
-                    "gw_ip" => $gw['ip'],
-                    "instance" => new Client($config)
+                    $this->clients,
+                    [
+                        "gw_name" => $gw['name'],
+                        "gw_ip" => $gw['ip'],
+                        "instance" => new Client($config)
                     ]
                 );
             } catch (Exception $e) {
@@ -53,21 +54,20 @@ class Search
 
         foreach ($this->clients as $client) {
             array_push(
-                $functions, 
-                function () use (&$client, &$query) {
-                    $response = $client['instance']->query($query)->read();
-                    return [
-                        "gw_name" => $client['gw_name'],
-                        "gw_ip" => $client['gw_ip'],
-                        "results" => $response
-                    ];
-                }
+                $functions,
+                Async\async(
+                    function () use (&$client, &$query) {
+                        $response = $client['instance']->query($query)->read();
+                        return [
+                            "gw_name" => $client['gw_name'],
+                            "gw_ip" => $client['gw_ip'],
+                            "results" => $response
+                        ];
+                    }
+                )
             );
         }
 
-        $responses = Fork::new()->run(
-            ...$functions
-        );
 
         foreach ($responses as $response) {
             foreach ($response['results'] as $result) {
@@ -89,5 +89,3 @@ class Search
         return $filtered;
     }
 }
-
-// TODO: tentar implementar parelelismo

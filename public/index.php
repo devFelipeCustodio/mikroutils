@@ -1,6 +1,8 @@
 <?php
 require '../src/search.php';
 require '../src/user.php';
+
+$query = $_GET['q'] ?? null;
 ?>
 
 <!DOCTYPE html>
@@ -16,31 +18,30 @@ require '../src/user.php';
     <script
         src="https://unpkg.com/clipboard-polyfill/dist/es5/window-var/clipboard-polyfill.window-var.promise.es5.js"></script>
     <script defer src="./index.js"></script>
-    <title>Mikroutils</title>
+    <title>Mikroutils :: <?php echo $query ?></title>
 </head>
 
 <body>
     <main class="container">
         <form action="index.php">
             <div class="input-field">
-                <input name="q" id="search_query" type="search" class="validate"
-                    value="<?php echo $_GET['q'] ?? null ?>">
+                <input name="q" id="search_query" type="search" class="validate" value="<?php echo $query ?>">
                 <label for="search_query">Digite um usuário PPPOE</label>
             </div>
         </form>
         <div class="results">
-            <?php if ($_GET['q']) {
-                //$results = (new Search())->findUserByName($_GET['q'] ?? null);
-                $results = [
-                    [
-                        "gw_name" => "gw_test",
-                        "gw_ip" => "0.0.0.0",
-                        "name" => "teste@afinet.com.br",
-                        "address" => "0.0.0.0",
-                        "caller_id" => "00:00:00:00:00:00",
-                        "uptime" => "0h00m00s"
-                    ]
-                ];
+            <?php if ($query) {
+                $results = (new Search())->findUserByName($query);
+                // $results = [
+                //     [
+                //         "gw_name" => "gw_test",
+                //         "gw_ip" => "0.0.0.0",
+                //         "name" => "teste@afinet.com.br",
+                //         "address" => "0.0.0.0",
+                //         "caller_id" => "00:00:00:00:00:00",
+                //         "uptime" => "0h00m00s"
+                //     ]
+                // ];
                 echo "<table class=\"centered responsive-table\">
                     <thead>
                         <th>Gateway</th>
