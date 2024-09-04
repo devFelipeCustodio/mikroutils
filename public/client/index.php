@@ -3,7 +3,8 @@
 require '../../vendor/autoload.php';
 require '../../src/user.php'; 
 
-$user = (new User())->getUserByName($_GET['name']);
+$result = (new User())->getUserByName($_GET['name']);
+["user" => $user, "service" => $service] = $result;
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +20,9 @@ $user = (new User())->getUserByName($_GET['name']);
 </head>
 <body>
     <main class="container">
-        <?php var_dump($user) ?>
+        <?php echo "<h1>$user</h1>
+        <p>$service</p>";
+        var_dump($result);?>
     </main>
 </body>
 </html>

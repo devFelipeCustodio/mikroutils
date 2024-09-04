@@ -64,7 +64,7 @@ $query = $_GET['q'] ?? null;
                             <td class=\"address\">$address</td>
                             <td class=\"caller-id\">$caller_id</td>
                             <td class=\"uptime\">$uptime</td>
-                            <td><a href=\"/client.php?gw=0.0.0.0&name=user@afinet.com.br\"><i class=\"material-icons\">description</i></a></td>
+                            <td><a href=\"/public/client/index.php?gw=$gw_ip&name=$name\"><i class=\"material-icons\">description</i></a></td>
                         </tr>";
                 }
                 echo "</table>";

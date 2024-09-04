@@ -6,7 +6,6 @@ require 'zabbix.php';
 use \RouterOS\Client;
 use \RouterOS\Config;
 use \RouterOS\Query;
-use \React\Async;
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->safeLoad();
@@ -47,24 +46,19 @@ class Search
 
     public function findUserByName($value)
     {
-        $responses = [];
         $filtered = [];
         $query = new Query('/ppp/active/print');
-        $functions = [];
+        $responses = [];
 
         foreach ($this->clients as $client) {
+            $response = $client['instance']->query($query)->read();
             array_push(
-                $functions,
-                Async\async(
-                    function () use (&$client, &$query) {
-                        $response = $client['instance']->query($query)->read();
-                        return [
-                            "gw_name" => $client['gw_name'],
-                            "gw_ip" => $client['gw_ip'],
-                            "results" => $response
-                        ];
-                    }
-                )
+                $responses,
+                [
+                    "gw_name" => $client['gw_name'],
+                    "gw_ip" => $client['gw_ip'],
+                    "results" => $response
+                ]
             );
         }
 

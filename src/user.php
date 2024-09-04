@@ -18,14 +18,16 @@ class User
             'user' => $_ENV["LOGIN"],
             'pass' => $_ENV["PASSWORD"],
             'port' => 8728,
-            'attempts' => 1]);
+            'attempts' => 1,
+            'socket_timeout' => 2,
+            'timeout' => 2]);
         $this->router_instance = new Client($config);
     }
 
     public function getUserByName($name){
-        $if = $this->getInterfaceDataByName($name);
-        $queue = $this->getQueueDataByName($name);
-        $traffic = $this->getTrafficDataByName($name);
+        $if = $this->getInterfaceDataByName($name)[0];
+        $queue = $this->getQueueDataByName($name)[0];
+        $traffic = $this->getTrafficDataByName($name)[0];
         return array_merge($if, $queue, $traffic);
     }
 
@@ -43,7 +45,7 @@ class User
     }
 
     private function getTrafficDataByName($name) {
-        $query = (new Query('/interface/print/stats-detail'))->where('name', "<pppoe-$name>");
+        $query = (new Query('/interface/getall'))->where('name', "<pppoe-$name>");
         $response = $this->router_instance->query($query)->read();
         return $response;
     }
