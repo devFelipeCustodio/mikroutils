@@ -16,53 +16,33 @@ class Search
     private $gateways;
     public function __construct()
     {
-        // $zabbix = new Zabbix();
-        // $this->gateways = $zabbix->host_get(["output" => ["host"], "selectInterfaces" => ["ip"]]);
-        // foreach ($this->gateways as $gw) {
-        //     $config = new Config(
-        //         [
-        //             'host' => $gw["ip"],
-        //             'user' => $_ENV["LOGIN"],
-        //             'pass' => $_ENV["PASSWORD"],
-        //             'port' => 8728,
-        //             'attempts' => 1
-        //         ]
-        //     );
-        //     try {
-        //         array_push(
-        //             $this->clients,
-        //             [
-        //                 "gw_name" => $gw['name'],
-        //                 "gw_ip" => $gw['ip'],
-        //                 "instance" => new Client($config)
-        //             ]
-        //         );
-        //     } catch (Exception $e) {
-
-        //     }
-
-        // }
-        $config = new Config(
-            [
-                'host' => '10.244.103.1',
-                'user' => $_ENV["LOGIN"],
-                'pass' => $_ENV["PASSWORD"],
-                'port' => 8728,
-                'attempts' => 1
-            ]
-        );
-        try {
-            array_push(
-                $this->clients,
+        $zabbix = new Zabbix();
+        $this->gateways = $zabbix->host_get(["output" => ["host"], "selectInterfaces" => ["ip"]]);
+        foreach ($this->gateways as $gw) {
+            $config = new Config(
                 [
-                    "gw_name" => "mirkotik_virtual",
-                    "gw_ip" => "10.244.103.1",
-                    "instance" => new Client($config)
+                    'host' => $gw["ip"],
+                    'user' => $_ENV["LOGIN"],
+                    'pass' => $_ENV["PASSWORD"],
+                    'port' => 8728,
+                    'attempts' => 1
                 ]
             );
-        } catch (Exception $e) {
+            try {
+                array_push(
+                    $this->clients,
+                    [
+                        "gw_name" => $gw['name'],
+                        "gw_ip" => $gw['ip'],
+                        "instance" => new Client($config)
+                    ]
+                );
+            } catch (Exception $e) {
+
+            }
 
         }
+        
 
     }
 

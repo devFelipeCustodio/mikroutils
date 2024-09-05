@@ -25,14 +25,16 @@ h2 {
 .user,
 .local-address,
 .remote-address,
-.interface {
+.interface, 
+.gateway {
     cursor: pointer;
 }
 
 .user:hover,
 .local-address:hover,
 .remote-address:hover,
-.interface:hover {
+.interface:hover, 
+.gateway:hover{
     background-color: var(--md-sys-color-primary-container);
 }
 

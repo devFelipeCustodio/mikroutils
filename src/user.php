@@ -30,28 +30,33 @@ class User
     public function getUserByName($name)
     {
         $if = $this->getInterfaceDataByName($name)[0] ?? [];
+        $gateway = $this->getRouterIdentity()[0] ?? [];
         $mac = $if['remote-address'];
         $queue = $this->getQueueDataByName($name)[0] ?? [];
         $traffic = $this->getTrafficDataByName($name)[0] ?? [];
-        $addresses = $this->getAddressesDataByName($name)[0] ?? [];
         $logs = $this->getLogDataByName($name, $mac) ?? [];
+        [$max_download, $max_upload] = explode("/", $queue['max-limit']);
         return [
             'user' => $if['user'],
             'interface' => $if['interface'],
-            'queue_name' => $queue['name'],
+            'uptime' => $if['uptime'],
+            'gateway' => $gateway['name'],
+            'local_address' => $if['local-address'],
+            'remote_address' => $if['remote-address'],
+            'max_limit' => formatBytes($max_download) . "/" . formatBytes($max_upload),
             'last_link_up_time' => $traffic['last-link-up-time'],
             'link_downs' => $traffic['link-downs'],
             'rx_byte' => formatBytes($traffic['rx-byte']),
             'tx_byte' => formatBytes($traffic['tx-byte']),
-            'local_address' => $addresses['address'],
-            'remote_address' => $addresses['network'],
             'logs' => $logs
         ];
     }
 
     private function getInterfaceDataByName($name)
     {
-        $query = (new Query('/interface/pppoe-server/print'))->where('name', "<pppoe-$name>");
+        $query = (new Query('/interface/pppoe-server/monitor'))
+        ->equal("numbers", "<pppoe-$name>")
+        ->equal('once');
         $response = $this->router_instance->query($query)->read();
         return $response;
     }
@@ -70,13 +75,6 @@ class User
         return $response;
     }
 
-    private function getAddressesDataByName($name)
-    {
-        $query = (new Query('/ip/address/print'))->where('interface', "<pppoe-$name>");
-        $response = $this->router_instance->query($query)->read();
-        return $response;
-    }
-
     private function getLogDataByName($name, $mac)
     {
         $query = new Query('/log/print');
@@ -89,6 +87,13 @@ class User
                 return true;
             }
         });
+        return $result;
+    }
+
+    private function getRouterIdentity()
+    {
+        $query = new Query('/system/identity/print');
+        $result = $this->router_instance->query($query)->read();
         return $result;
     }
 }

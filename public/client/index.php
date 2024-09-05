@@ -6,8 +6,10 @@ require '../../src/user.php';
 $result = (new User())->getUserByName($_GET['name']);
 [
     "user" => $user,
+    "gateway" => $gateway,
+    "uptime" => $uptime,
     "interface" => $interface,
-    "queue_name" => $queue_name,
+    "max_limit" => $max_limit,
     "last_link_up_time" => $last_link_up_time,
     "link_downs" => $link_downs,
     "rx_byte" => $rx_byte,
@@ -16,6 +18,7 @@ $result = (new User())->getUserByName($_GET['name']);
     "remote_address" => $remote_address,
     "logs" => $logs
 ] = $result;
+$has_logs = $logs ? "" : "hide";
 ?>
 
 <!DOCTYPE html>
@@ -43,18 +46,20 @@ $result = (new User())->getUserByName($_GET['name']);
                 echo "<div class=\"data-container\">
             <h1 class=\"user\">$user</h1>
             <div class=\"grid-container\">
+            <div class=\"data\"><span class=\"title\">router identity: </span><span data-gw-ip=" . $_GET['gw'] . " class=\"gateway\">$gateway</span></div>
+            <div class=\"data\"><span class=\"title\">uptime: </span><span class=\"uptime\">$uptime</span></div>
             <div class=\"data\"><span class=\"title\">local address: </span><span class=\"local-address\">";
                 echo str_replace("/32", "", $local_address) . "</span></div>
             <div class=\"data\"><span class=\"title\">remote address:</span> <span class=\"remote-address\">$remote_address</span></div>
                     <div class=\"data\"><span class=\"title\">interface:</span> <span class=\"interface\">$interface</span></div>
-                    <div class=\"data\"><span class=\"title\">queue:</span> $queue_name</div>
+                    <div class=\"data\"><span class=\"title\">queue:</span> $max_limit</div>
                     <div class=\"data\"><span class=\"title\">last link up time:</span> $last_link_up_time</div>
                     <div class=\"data\"><span class=\"title\">link downs:</span> $link_downs</div>
                     <div class=\"data\"><span class=\"title\">rx byte:</span> $rx_byte</div>
                     <div class=\"data\"><span class=\"title\">tx byte:</span> $tx_byte</div>
             </div>
             </div>
-            <div class=\"log-container\">
+            <div class=\"log-container $has_logs\">
             <h2>Logs</h2>
             <div class=\"table-container\">
             <table>

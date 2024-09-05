@@ -20,5 +20,9 @@
             await clipboard.writeText(e.target.textContent);
             clipboardNotification('A interface');
         }
+        else if (e.target.classList.contains('gateway')) {
+            await clipboard.writeText(e.target.getAttribute('data-gw-ip'));
+            clipboardNotification('IP do gateway');
+        }
     });
 })();

@@ -11,7 +11,7 @@
             await clipboard.writeText(ip);
             clipboardNotification('IP do GW');
         } else if (e.target.classList.contains('name')) {
-            await clipboard.writeText(e.target.textContent);
+            await clipboard.writeText(e.target.innerText);
             clipboardNotification('Nome do usuário');
         } else if (e.target.classList.contains('address')) {
             await clipboard.writeText(e.target.textContent);
