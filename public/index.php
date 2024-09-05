@@ -11,10 +11,12 @@ $query = $_GET['q'] ?? null;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@materializecss/materialize@2.1.0/dist/css/materialize.min.css">
     <link rel="stylesheet" href="./style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script defer
+        src="https://cdn.jsdelivr.net/npm/@materializecss/materialize@2.1.0/dist/js/materialize.min.js"></script>
     <script
         src="https://unpkg.com/clipboard-polyfill/dist/es5/window-var/clipboard-polyfill.window-var.promise.es5.js"></script>
     <script defer src="./index.js"></script>
@@ -22,7 +24,7 @@ $query = $_GET['q'] ?? null;
 </head>
 
 <body>
-    <main class="container">
+    <div class="container">
         <form action="index.php">
             <div class="input-field">
                 <input name="q" id="search_query" type="search" class="validate" value="<?php echo $query ?>">
@@ -71,7 +73,7 @@ $query = $_GET['q'] ?? null;
             }
             ?>
         </div>
-    </main>
+    </div>
 </body>
 
 </html>

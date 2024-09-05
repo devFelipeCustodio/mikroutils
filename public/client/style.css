@@ -1,0 +1,50 @@
+h1 {
+    font-size: 3rem;
+    display: inline-block;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    font-size: 20px;
+}
+
+.data {
+    margin-block: 2px;
+}
+
+.title {
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.user,
+.local-address,
+.remote-address,
+.interface {
+    cursor: pointer;
+}
+
+.user:hover,
+.local-address:hover,
+.remote-address:hover,
+.interface:hover {
+    background-color: var(--md-sys-color-primary-container);
+}
+
+.table-container {
+    max-height: 55vh;
+    overflow-y: auto;
+}
+
+.log {
+    font-family: monospace;
+}
+
+.log-time {
+    white-space: nowrap;
+}
