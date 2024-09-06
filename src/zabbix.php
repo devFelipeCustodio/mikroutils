@@ -44,6 +44,8 @@ class Zabbix
             )
         ));
         $response = file_get_contents($this->url, FALSE, $context);
+        if (!$response)
+            throw new Exception('Falha na requisição ao Zabbix.');
         $responseData = json_decode($response, TRUE);
         return $responseData;
     }

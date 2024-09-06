@@ -1,10 +1,17 @@
 h1 {
     font-size: 3rem;
     display: inline-block;
+    margin-block: 1.68rem;
 }
 
 h2 {
     font-size: 2rem;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center !important;
 }
 
 .grid-container {
@@ -23,23 +30,25 @@ h2 {
 }
 
 .user,
+.caller-id,
 .local-address,
 .remote-address,
-.interface, 
+.interface,
 .gateway {
     cursor: pointer;
 }
 
 .user:hover,
+.caller-id:hover,
 .local-address:hover,
 .remote-address:hover,
-.interface:hover, 
-.gateway:hover{
-    background-color: var(--md-sys-color-primary-container);
+.interface:hover,
+.gateway:hover {
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .table-container {
-    max-height: 55vh;
+    max-height: 50vh;
     overflow-y: auto;
 }
 

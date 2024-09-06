@@ -12,23 +12,36 @@ $dotenv->safeLoad();
 class User
 {
     private $router_instance;
+    public $error_message;
 
     public function __construct()
     {
-        $config = new Config([
-            'host' => $_GET['gw'],
-            'user' => $_ENV["LOGIN"],
-            'pass' => $_ENV["PASSWORD"],
-            'port' => 8728,
-            'attempts' => 1,
-            'socket_timeout' => 2,
-            'timeout' => 2
-        ]);
-        $this->router_instance = new Client($config);
+        try {
+            $config = new Config([
+                'host' => $_GET['gw'],
+                'user' => $_ENV["LOGIN"],
+                'pass' => $_ENV["PASSWORD"],
+                'port' => 8728,
+                'attempts' => 1,
+                'socket_timeout' => 2,
+                'timeout' => 2
+            ]);
+            $this->router_instance = new Client($config);
+        } catch (Throwable $e) {
+            $this->error_message = $e->getMessage();
+        }
+
+    }
+
+    public function has_router_instance()
+    {
+        return is_object($this->router_instance);
     }
 
     public function getUserByName($name)
     {
+        if (!$this->router_instance)
+            return null;
         $if = $this->getInterfaceDataByName($name)[0] ?? [];
         $gateway = $this->getRouterIdentity()[0] ?? [];
         $mac = $if['remote-address'];
@@ -38,6 +51,7 @@ class User
         [$max_download, $max_upload] = explode("/", $queue['max-limit']);
         return [
             'user' => $if['user'],
+            'caller_id' => $if['caller-id'],
             'interface' => $if['interface'],
             'uptime' => $if['uptime'],
             'gateway' => $gateway['name'],
@@ -55,8 +69,8 @@ class User
     private function getInterfaceDataByName($name)
     {
         $query = (new Query('/interface/pppoe-server/monitor'))
-        ->equal("numbers", "<pppoe-$name>")
-        ->equal('once');
+            ->equal("numbers", "<pppoe-$name>")
+            ->equal('once');
         $response = $this->router_instance->query($query)->read();
         return $response;
     }

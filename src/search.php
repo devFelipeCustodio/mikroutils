@@ -14,10 +14,12 @@ class Search
 {
     private $clients = [];
     private $gateways;
+    public $zabbix_error;
+    public $client_errors = [];
+
     public function __construct()
     {
-        $zabbix = new Zabbix();
-        $this->gateways = $zabbix->host_get(["output" => ["host"], "selectInterfaces" => ["ip"]]);
+        $this->gateways = [["ip" => "10.244.103.1", "name" => "gw_virtual"]];
         foreach ($this->gateways as $gw) {
             $config = new Config(
                 [
@@ -37,12 +39,15 @@ class Search
                         "instance" => new Client($config)
                     ]
                 );
-            } catch (Exception $e) {
-
+            } catch (\Throwable $th) {
+                array_push($this->client_errors, [
+                    "gw_name" => $gw['name'],
+                    "error_message" => $th->getMessage()
+                ]);
             }
 
         }
-        
+
 
     }
 

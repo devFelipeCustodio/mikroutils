@@ -1,6 +1,7 @@
 form {
     display: flex;
     justify-content: center;
+    margin-top: 1rem;
 }
 
 .results {
@@ -26,5 +27,11 @@ form {
 .name:hover,
 .address:hover,
 .caller-id:hover {
-    background-color: var(--md-sys-color-primary-container);
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.btn-floating  {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
 }
