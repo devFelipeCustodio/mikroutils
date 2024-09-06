@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "44a5c84678de58e9aad0fde2e07d7cc4",
+    "content-hash": "4e5634c632e8dcb577373ce45566c104",
     "packages": [
         {
             "name": "evilfreelancer/routeros-api-php",
@@ -890,7 +890,60 @@
             "time": "2024-07-20T21:52:34+00:00"
         }
     ],
-    "packages-dev": [],
+    "packages-dev": [
+        {
+            "name": "phpexperts/dockerize",
+            "version": "v10.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPExpertsInc/dockerize.git",
+                "reference": "db48ed4a15b8d8bc6fb4b729945cc2459685777c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPExpertsInc/dockerize/zipball/db48ed4a15b8d8bc6fb4b729945cc2459685777c",
+                "reference": "db48ed4a15b8d8bc6fb4b729945cc2459685777c",
+                "shasum": ""
+            },
+            "suggest": {
+                "phpexperts/docker-phan": "Dockerized phan/phan",
+                "phpexperts/docker-phpstan": "Dockerized phpstan/phpstan",
+                "phpexperts/docker-rector": "Dockerized rector/rector"
+            },
+            "bin": [
+                "bin/php",
+                "bin/composer",
+                "bin/php-ci.sh"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP Experts, Inc.",
+                    "homepage": "https://www.phpexperts.pro/"
+                },
+                {
+                    "name": "Theodore R. Smith",
+                    "homepage": "https://www.linkedin.com/in/tedrsmith"
+                }
+            ],
+            "description": "The quickest and easiest way to switch any PHP app/library to use Docker.",
+            "homepage": "https://www.phpexperts.pro/",
+            "keywords": [
+                "docker",
+                "dockerize",
+                "new project"
+            ],
+            "support": {
+                "issues": "https://github.com/PHPExpertsInc/dockerize/issues",
+                "source": "https://github.com/PHPExpertsInc/dockerize/tree/v10.0.3"
+            },
+            "time": "2024-06-29T15:34:41+00:00"
+        }
+    ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": [],

@@ -14,5 +14,8 @@
         {
             "name": "Felipe Custodio"
         }
-    ]
+    ],
+    "require-dev": {
+        "phpexperts/dockerize": "^10.0"
+    }
 }

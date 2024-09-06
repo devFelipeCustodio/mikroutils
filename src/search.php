@@ -16,10 +16,15 @@ class Search
     private $gateways;
     public $zabbix_error;
     public $client_errors = [];
-
     public function __construct()
     {
-        $this->gateways = [["ip" => "10.244.103.1", "name" => "gw_virtual"]];
+        $zabbix = new Zabbix();
+        try {
+            $this->gateways = $zabbix->host_get(["output" => ["host"], "selectInterfaces" => ["ip"]]);
+        } catch (\Throwable $th) {
+            $this->zabbix_error = $th->getMessage();
+            return;
+        }
         foreach ($this->gateways as $gw) {
             $config = new Config(
                 [
@@ -50,6 +55,8 @@ class Search
 
 
     }
+
+
 
     public function findUserByName($value)
     {
