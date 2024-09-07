@@ -2,6 +2,7 @@
 require '../src/search.php';
 require '../src/user.php';
 
+
 $query = $_GET['q'] ?? '';
 $filter = $_GET['filter'] ?? 'pppoe';
 $gateway = $_GET['gateway'] ?? '';
@@ -80,7 +81,7 @@ $gateways = $search->gateways;
                                 <div class=\"modal-content\">
                                 <h2>Relatório de erros</h2>";
                         foreach ($zabbix_search->client_errors as $error) {
-                            echo "<p>" . htmlspecialcharshtmlspecialchars($error['gw_name']) . ": " . htmlspecialchars($error['error_message']) . "</p>";
+                            echo "<p>" . htmlspecialchars($error['gw_name']) . ": " . htmlspecialchars($error['error_message']) . "</p>";
                         }
                         echo "</div>
                         </div>";
@@ -93,7 +94,7 @@ $gateways = $search->gateways;
                             <th>Gateway</th>
                             <th>Name</th>
                             <th>Address</th>
-                            <th>Caller ID</th>
+                            <th>MAC</th>
                             <th>Uptime</th>
                         </thead>
                         <tbody>";
@@ -104,11 +105,12 @@ $gateways = $search->gateways;
                             $address = htmlspecialchars($result['address']);
                             $caller_id = htmlspecialchars($result['caller_id']);
                             $uptime = htmlspecialchars($result['uptime']);
+                            $manufacturer = htmlspecialchars(getFabr($caller_id));
                             echo "<tr data-gw-ip=\"$gw_ip\">
                                 <td class=\"gw-name no-wrap\">$gw_name</td>
                                 <td class=\"name\">$name</td>
                                 <td class=\"address\">$address</td>
-                                <td class=\"caller-id\">$caller_id</td>
+                                <td class=\"caller-id\">$caller_id ($manufacturer)</td>
                                 <td class=\"uptime\">$uptime</td>
                                 <td><a class=\"teal-text\" href=\"/user/?name=$name&gw=$gw_ip\"><i class=\"material-icons\">description</i></a></td>
                             </tr>";

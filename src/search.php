@@ -2,10 +2,16 @@
 
 require '../vendor/autoload.php';
 require 'zabbix.php';
+require '../src/fabricante_renomear.php';
+
+
+updateFilexx(); // retirar depois de colocar o cronjob
+
 
 use \RouterOS\Client;
 use \RouterOS\Config;
 use \RouterOS\Query;
+
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->safeLoad();
@@ -119,5 +125,3 @@ class Search
         return $filtered;
     }
 }
-
-?>

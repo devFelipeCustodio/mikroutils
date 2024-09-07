@@ -19,7 +19,7 @@
                 await clipboard.writeText(e.target.textContent);
                 clipboardNotification('IP remoto do cliente');
             } else if (e.target.classList.contains('caller-id')) {
-                await clipboard.writeText(e.target.textContent);
+                await clipboard.writeText(e.target.textContent.replace(/ *\([^)]*\) */g, ""));
                 clipboardNotification('MAC do cliente');
             }
         });
