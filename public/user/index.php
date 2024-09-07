@@ -2,8 +2,13 @@
 
 require '../../vendor/autoload.php';
 require '../../src/user.php';
+
+$gw = htmlspecialchars($_GET['gw'] ?? '');
+$name = htmlspecialchars($_GET['name'] ?? '');
+
 $pppoe_user = new User();
-$result = $pppoe_user->getUserByName($_GET['name']);
+$result = $pppoe_user->getUserByName($name);
+
 [
     "user" => $user,
     "caller_id" => $caller_id,
@@ -19,6 +24,7 @@ $result = $pppoe_user->getUserByName($_GET['name']);
     "remote_address" => $remote_address,
     "logs" => $logs
 ] = $result;
+
 $has_logs = $logs ? "" : "hide";
 ?>
 
@@ -32,7 +38,6 @@ $has_logs = $logs ? "" : "hide";
     <link rel="stylesheet" href="./style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
     <script defer
         src="https://unpkg.com/clipboard-polyfill/dist/es5/window-var/clipboard-polyfill.window-var.promise.es5.js"></script>
     <script defer src="./index.js"></script>
@@ -40,7 +45,7 @@ $has_logs = $logs ? "" : "hide";
 </head>
 
 <body>
-    <?php require '../navbar.php' ?>
+    <?php require '../navbar.php'; ?>
     <div class="container">
         <main>
             <?php if (!$pppoe_user->has_router_instance()) {
@@ -55,7 +60,7 @@ $has_logs = $logs ? "" : "hide";
             <button autofocus class=\"waves-effect waves-light btn-large btn-back\"><i class=\"material-icons left\">arrow_back</i>voltar</button>
             </div>
             <div class=\"grid-container\">
-            <div class=\"data\"><span class=\"title\">gateway identity: </span><span data-gw-ip=" . $_GET['gw'] . " class=\"gateway\">$gateway</span></div>
+            <div class=\"data\"><span class=\"title\">gateway identity: </span><span data-gw-ip=\"$gw\" class=\"gateway\">$gateway</span></div>
             <div class=\"data\"><span class=\"title\">caller ID: </span><span class=\"caller-id\">$caller_id</span></div>
             <div class=\"data\"><span class=\"title\">local address: </span><span class=\"local-address\">";
                 echo str_replace("/32", "", $local_address) . "</span></div>
@@ -68,24 +73,25 @@ $has_logs = $logs ? "" : "hide";
             <div class=\"data\"><span class=\"title\">tx byte:</span> $tx_byte</div>
             <div class=\"data\"><span class=\"title\">link downs:</span> $link_downs</div>
             </div>
-            </.div>
+            </div>
             <div class=\"log-container $has_logs\">
             <h2>Logs</h2>
             <div class=\"table-container\">
             <table>
                 <thead>
+                <tr>
                 <th>Time</th>
                 <th>Topics</th>
                 <th>Message</th>
+                </tr>
                 </thead>
                 <tbody>";
                 foreach ($logs as $log) {
-                    $red_log = stripos($log['topics'], "error") !== false ? "style=\"color:red;\"" : null;
+                    $red_log = stripos($log['topics'], "error") !== false ? "style=\"color:red;\"" : "";
                     echo "<tr class=\"log\" $red_log> 
-            <td class=\"log-time\">" . $log['time'] . "</td>
-            <td>" . $log['topics'] . "</td>
-            <td>";
-                    echo str_replace("<", "&lt;", (str_replace(">", "&gt;", $log['message']))) . "</td>
+            <td class=\"log-time\">" . htmlspecialchars($log['time']) . "</td>
+            <td>" . htmlspecialchars($log['topics']) . "</td>
+            <td>" . htmlspecialchars($log['message']) . "</td>
             </tr>";
                 }
                 echo "</tbody>

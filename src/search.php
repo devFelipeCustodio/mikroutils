@@ -13,28 +13,44 @@ $dotenv->safeLoad();
 class Search
 {
     private $clients = [];
-    private $gateways;
+    public $gateways;
+    private $gatewaysfilter = [];
     public $zabbix_error;
     public $client_errors = [];
+
     public function __construct()
     {
         $zabbix = new Zabbix();
+
         try {
             $this->gateways = $zabbix->host_get(["output" => ["host"], "selectInterfaces" => ["ip"]]);
         } catch (\Throwable $th) {
             $this->zabbix_error = $th->getMessage();
             return;
         }
-        foreach ($this->gateways as $gw) {
+
+        $this->gatewaysfilter = $this->gateways;
+        if (isset($_GET['gateway']) && $_GET['gateway'] != "todos") {
+            $selectedGateway = $_GET['gateway'];
+            foreach ($this->gatewaysfilter as $key => $value) {
+                if ($key == $selectedGateway) {
+                    $this->gatewaysfilter = [$value];
+                    break;
+                }
+            }
+        }
+
+        foreach ($this->gatewaysfilter as $gw) {
             $config = new Config(
                 [
                     'host' => $gw["ip"],
-                    'user' => $_ENV["LOGIN"],
-                    'pass' => $_ENV["PASSWORD"],
+                    'user' => "admin",
+                    'pass' => "admin",
                     'port' => 8728,
                     'attempts' => 1
                 ]
             );
+
             try {
                 array_push(
                     $this->clients,
@@ -50,15 +66,10 @@ class Search
                     "error_message" => $th->getMessage()
                 ]);
             }
-
         }
-
-
     }
 
-
-
-    public function findUserByName($value)
+    public function findUserByFilter($value, $filter)
     {
         $filtered = [];
         $query = new Query('/ppp/active/print');
@@ -76,10 +87,21 @@ class Search
             );
         }
 
-
         foreach ($responses as $response) {
             foreach ($response['results'] as $result) {
-                if (preg_match("/" . $value . "/i", $result['name'])) {
+                $match = false;
+                switch ($filter) {
+                    case 'mac':
+                        $match = preg_match("/" . $value . "/i", $result['caller-id']);
+                        break;
+                    case 'ip':
+                        $match = preg_match("/" . $value . "/i", $result['address']);
+                        break;
+                    case 'pppoe':
+                        $match = preg_match("/" . $value . "/i", $result['name']);
+                        break;
+                }
+                if ($match) {
                     array_push(
                         $filtered,
                         [
@@ -97,3 +119,5 @@ class Search
         return $filtered;
     }
 }
+
+?>

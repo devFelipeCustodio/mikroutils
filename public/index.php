@@ -2,7 +2,17 @@
 require '../src/search.php';
 require '../src/user.php';
 
-$query = $_GET['q'] ?? null;
+$query = $_GET['q'] ?? '';
+$filter = $_GET['filter'] ?? 'pppoe';
+$gateway = $_GET['gateway'] ?? '';
+
+$valid_filters = ['pppoe', 'mac', 'ip'];
+if (!in_array($filter, $valid_filters)) {
+    $filter = 'pppoe';
+}
+
+$search = new Search();
+$gateways = $search->gateways;
 ?>
 
 <!DOCTYPE html>
@@ -15,26 +25,52 @@ $query = $_GET['q'] ?? null;
     <link rel="stylesheet" href="./style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
     <script defer
         src="https://unpkg.com/clipboard-polyfill/dist/es5/window-var/clipboard-polyfill.window-var.promise.es5.js"></script>
     <script defer src="./index.js"></script>
-    <title>Mikroutils :: <?php echo $query ?? "Home" ?></title>
+    <title>Mikroutils :: <?php echo htmlspecialchars($query) ?: "Home" ?></title>
 </head>
 
 <body>
     <?php require './navbar.php' ?>
     <div class="container">
-        <form action="/">
-            <div class="input-field">
-                <input name="q" required id="search_query" type="search" class="validate" value="<?php echo $query ?>">
-                <label for="search_query">Digite um usuário PPPOE</label>
+        <form action="/" method="GET">
+            <div style="display: flex; align-items: center;">
+                <div class="input-field" style="display: inline-block; width: 200px; margin-right: 10px;">
+                    <input name="q" required id="search_query" type="search" class="validate"
+                        value="<?php echo htmlspecialchars($query) ?>">
+                    <label for="search_query">Digite um usuário PPPoE</label>
+                </div>
+
+                <div class="input-field" style="display: inline-block; width: 200px; margin-right: 10px;">
+                    <select name="gateway" id="gateway">
+                        <option value="todos">Todos</option>
+                        <?php
+                        foreach ($gateways as $value => $gw) {
+                            echo '<option value="' . htmlspecialchars($value) . '" ' . ($gateway === htmlspecialchars($value) ? 'selected' : '') . '>' . htmlspecialchars($gw['name']) . '</option>';
+                        }
+                        ?>
+                    </select>
+                    <label>Gateway</label>
+                </div>
+
+                <div class="input-field" style="display: inline-block; width: 200px; margin-right: 10px;">
+                    <select name="filter" id="filter">
+                        <option value="pppoe" <?php echo $filter === 'pppoe' ? 'selected' : '' ?>>PPPoE</option>
+                        <option value="mac" <?php echo $filter === 'mac' ? 'selected' : '' ?>>MAC</option>
+                        <option value="ip" <?php echo $filter === 'ip' ? 'selected' : '' ?>>IP</option>
+                    </select>
+                    <label>Filtrar por</label>
+                </div>
+
+                <button type="submit" class="btn waves-effect waves-light">Pesquisar</button>
             </div>
         </form>
+
         <div class="results">
             <?php if ($query) {
                 $zabbix_search = new Search();
-                $results = $zabbix_search->findUserByName($query);
+                $results = $zabbix_search->findUserByFilter($query, $filter);
                 if ($zabbix_search->zabbix_error) {
                     echo "<p>Falha durante a conexão com o Zabbix.</p>";
                 } else {
@@ -44,15 +80,13 @@ $query = $_GET['q'] ?? null;
                                 <div class=\"modal-content\">
                                 <h2>Relatório de erros</h2>";
                         foreach ($zabbix_search->client_errors as $error) {
-                            echo "<p>" . $error['gw_name'] . ": " . $error['error_message'] . "</p>";
+                            echo "<p>" . htmlspecialcharshtmlspecialchars($error['gw_name']) . ": " . htmlspecialchars($error['error_message']) . "</p>";
                         }
-                        ;
                         echo "</div>
-                            </div>";
+                        </div>";
                     }
-                    if (!$results) { {
-                            echo "<p>Nenhum resultado encontrado.</p>";
-                        }
+                    if (!$results) {
+                        echo "<p>Nenhum resultado encontrado.</p>";
                     } else {
                         echo "<table class=\"centered responsive-table\">
                         <thead>
@@ -64,13 +98,13 @@ $query = $_GET['q'] ?? null;
                         </thead>
                         <tbody>";
                         foreach ($results as $result) {
-                            $gw_name = $result['gw_name'];
-                            $gw_ip = $result['gw_ip'];
-                            $name = $result['name'];
-                            $address = $result['address'];
-                            $caller_id = $result['caller_id'];
-                            $uptime = $result['uptime'];
-                            echo "<tr data-gw-ip=$gw_ip>
+                            $gw_name = htmlspecialchars($result['gw_name']);
+                            $gw_ip = htmlspecialchars($result['gw_ip']);
+                            $name = htmlspecialchars($result['name']);
+                            $address = htmlspecialchars($result['address']);
+                            $caller_id = htmlspecialchars($result['caller_id']);
+                            $uptime = htmlspecialchars($result['uptime']);
+                            echo "<tr data-gw-ip=\"$gw_ip\">
                                 <td class=\"gw-name no-wrap\">$gw_name</td>
                                 <td class=\"name\">$name</td>
                                 <td class=\"address\">$address</td>
@@ -86,6 +120,13 @@ $query = $_GET['q'] ?? null;
             ?>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('select');
+            var instances = M.FormSelect.init(elems, {});
+        });
+    </script>
 </body>
 
 </html>

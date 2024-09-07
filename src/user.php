@@ -19,8 +19,8 @@ class User
         try {
             $config = new Config([
                 'host' => $_GET['gw'],
-                'user' => $_ENV["LOGIN"],
-                'pass' => $_ENV["PASSWORD"],
+                'user' => "admin",
+                'pass' => "admin",
                 'port' => 8728,
                 'attempts' => 1,
                 'socket_timeout' => 2,
@@ -30,7 +30,6 @@ class User
         } catch (Throwable $e) {
             $this->error_message = $e->getMessage();
         }
-
     }
 
     public function has_router_instance()
@@ -40,28 +39,34 @@ class User
 
     public function getUserByName($name)
     {
-        if (!$this->router_instance)
+        if (!$this->router_instance) {
             return null;
+        }
+
         $if = $this->getInterfaceDataByName($name)[0] ?? [];
         $gateway = $this->getRouterIdentity()[0] ?? [];
-        $mac = $if['remote-address'];
+        $mac = $if['remote-address'] ?? 'N/A';
         $queue = $this->getQueueDataByName($name)[0] ?? [];
         $traffic = $this->getTrafficDataByName($name)[0] ?? [];
         $logs = $this->getLogDataByName($name, $mac) ?? [];
-        [$max_download, $max_upload] = explode("/", $queue['max-limit']);
+
+        $max_limit = $queue['max-limit'] ?? '0/0';
+        //explode("/", $queue['max-limit']);
+        [$max_download, $max_upload] = explode("/", $max_limit);
+
         return [
-            'user' => $if['user'],
-            'caller_id' => $if['caller-id'],
-            'interface' => $if['interface'],
-            'uptime' => $if['uptime'],
-            'gateway' => $gateway['name'],
-            'local_address' => $if['local-address'],
-            'remote_address' => $if['remote-address'],
+            'user' => $if['user'] ?? 'N/A',
+            'caller_id' => $if['caller-id'] ?? 'N/A',
+            'interface' => $if['interface'] ?? 'N/A',
+            'uptime' => $if['uptime'] ?? 'N/A',
+            'gateway' => $gateway['name'] ?? 'N/A',
+            'local_address' => $if['local-address'] ?? 'N/A',
+            'remote_address' => $if['remote-address'] ?? 'N/A',
             'max_limit' => formatBytes($max_download) . "/" . formatBytes($max_upload),
-            'last_link_up_time' => $traffic['last-link-up-time'],
-            'link_downs' => $traffic['link-downs'],
-            'rx_byte' => formatBytes($traffic['rx-byte']),
-            'tx_byte' => formatBytes($traffic['tx-byte']),
+            'last_link_up_time' => $traffic['last-link-up-time'] ?? 'N/A',
+            'link_downs' => $traffic['link-downs'] ?? 'N/A',
+            'rx_byte' => formatBytes($traffic['rx-byte'] ?? 0),
+            'tx_byte' => formatBytes($traffic['tx-byte'] ?? 0),
             'logs' => $logs
         ];
     }
