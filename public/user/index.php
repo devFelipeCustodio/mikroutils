@@ -2,6 +2,8 @@
 
 require '../../vendor/autoload.php';
 require '../../src/user.php';
+require '../../src/fabricante_renomear.php';
+
 
 $gw = htmlspecialchars($_GET['gw'] ?? '');
 $name = htmlspecialchars($_GET['name'] ?? '');
@@ -53,6 +55,7 @@ $has_logs = $logs ? "" : "hide";
             } else if (!$user) {
                 echo "<p style=\"font-size:2rem;\">Usuário inválido.</p>";
             } else {
+                $manufacturer = htmlspecialchars(getFabr($caller_id)); //verificar amanhã
                 echo "
             <div class=\"data-container\">
             <div class=\"flex-container\">
@@ -61,7 +64,7 @@ $has_logs = $logs ? "" : "hide";
             </div>
             <div class=\"grid-container\">
             <div class=\"data\"><span class=\"title\">gateway identity: </span><span data-gw-ip=\"$gw\" class=\"gateway\">$gateway</span></div>
-            <div class=\"data\"><span class=\"title\">caller ID: </span><span class=\"caller-id\">$caller_id</span></div>
+            <div class=\"data\"><span class=\"title\">caller ID: </span><span class=\"caller-id\">$caller_id ($manufacturer)</span></div>
             <div class=\"data\"><span class=\"title\">local address: </span><span class=\"local-address\">";
                 echo str_replace("/32", "", $local_address) . "</span></div>
             <div class=\"data\"><span class=\"title\">remote address:</span> <span class=\"remote-address\">$remote_address</span></div>
