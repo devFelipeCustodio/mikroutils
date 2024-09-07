@@ -6,7 +6,7 @@ use \RouterOS\Client;
 use \RouterOS\Config;
 use \RouterOS\Query;
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__FILE__, 2));
 $dotenv->safeLoad();
 
 class User
@@ -19,8 +19,8 @@ class User
         try {
             $config = new Config([
                 'host' => $_GET['gw'],
-                'user' => $_ENV["LOGIN"],
-                'pass' => $_ENV["PASSWORD"],
+                'user' => $_SERVER["LOGIN"],
+                'pass' => $_SERVER["PASSWORD"],
                 'port' => 8728,
                 'attempts' => 1,
                 'socket_timeout' => 2,

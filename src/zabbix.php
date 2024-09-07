@@ -2,7 +2,7 @@
 
 require '../vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__FILE__, 2));
 $dotenv->safeLoad();
 
 class Zabbix
@@ -11,8 +11,8 @@ class Zabbix
     private $token;
     public function __construct()
     {
-        $this->url = $_ENV["ZABBIX_URL"] . "/api_jsonrpc.php";
-        $this->token = $_ENV["ZABBIX_AUTH_TOKEN"];
+        $this->url = $_SERVER["ZABBIX_URL"] . "/api_jsonrpc.php";
+        $this->token = $_SERVER["ZABBIX_AUTH_TOKEN"];
     }
 
     public function host_get($params)
