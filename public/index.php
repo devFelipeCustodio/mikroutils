@@ -39,7 +39,7 @@ $gateways = $search->gateways;
                 <div class="input-field" style="display: inline-block; width: 200px; margin-right: 10px;">
                     <input name="q" required id="search_query" type="search" class="validate"
                         value="<?php echo htmlspecialchars($query) ?>">
-                    <label for="search_query">Digite um usuário PPPoE</label>
+                    <label for="search_query">Pesquisa</label>
                 </div>
 
                 <div class="input-field" style="display: inline-block; width: 200px; margin-right: 10px;">
