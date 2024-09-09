@@ -1,6 +1,0 @@
-vendor/
-.vscode/
-.env
-.gitignore
-.dockerignore
-Dockerfile

@@ -2,15 +2,12 @@
 
 require '../vendor/autoload.php';
 require 'zabbix.php';
+require 'dotenv.php';
 require 'manufacturer.php';
 
 use \RouterOS\Client;
 use \RouterOS\Config;
 use \RouterOS\Query;
-
-
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__FILE__, 2));
-$dotenv->safeLoad();
 
 class Search
 {
@@ -19,7 +16,6 @@ class Search
     private $gatewaysfilter = [];
     public $zabbix_error;
     public $client_errors = [];
-
     public function __construct()
     {
         $zabbix = new Zabbix();
@@ -46,8 +42,8 @@ class Search
             $config = new Config(
                 [
                     'host' => $gw["ip"],
-                    'user' => $_ENV["LOGIN"],
-                    'pass' => $_ENV["PASSWORD"],
+                    'user' => $_SERVER["LOGIN"],
+                    'pass' => $_SERVER["PASSWORD"],
                     'port' => 8728,
                     'attempts' => 1
                 ]
