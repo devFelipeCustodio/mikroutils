@@ -2,18 +2,14 @@
 
 require '../vendor/autoload.php';
 require 'zabbix.php';
-require '../src/fabricante_renomear.php';
-
-
-updateFilexx(); // retirar depois de colocar o cronjob
-
+require 'manufacturer.php';
 
 use \RouterOS\Client;
 use \RouterOS\Config;
 use \RouterOS\Query;
 
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__FILE__, 2));
 $dotenv->safeLoad();
 
 class Search
@@ -50,8 +46,8 @@ class Search
             $config = new Config(
                 [
                     'host' => $gw["ip"],
-                    'user' => "admin",
-                    'pass' => "admin",
+                    'user' => $_ENV["LOGIN"],
+                    'pass' => $_ENV["PASSWORD"],
                     'port' => 8728,
                     'attempts' => 1
                 ]
@@ -103,7 +99,7 @@ class Search
                     case 'ip':
                         $match = preg_match("/" . $value . "/i", $result['address']);
                         break;
-                    case 'pppoe':
+                    case 'name':
                         $match = preg_match("/" . $value . "/i", $result['name']);
                         break;
                 }

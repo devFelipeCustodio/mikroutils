@@ -1,19 +1,18 @@
 <?php
 require '../src/search.php';
-require '../src/user.php';
-
 
 $query = $_GET['q'] ?? '';
-$filter = $_GET['filter'] ?? 'pppoe';
+$filter = $_GET['filter'] ?? 'name';
 $gateway = $_GET['gateway'] ?? '';
 
-$valid_filters = ['pppoe', 'mac', 'ip'];
+$valid_filters = ['name', 'mac', 'ip'];
 if (!in_array($filter, $valid_filters)) {
-    $filter = 'pppoe';
+    $filter = 'name';
 }
 
 $search = new Search();
 $gateways = $search->gateways;
+
 ?>
 
 <!DOCTYPE html>
@@ -36,35 +35,34 @@ $gateways = $search->gateways;
     <?php require './navbar.php' ?>
     <div class="container">
         <form action="/" method="GET">
-            <div style="display: flex; align-items: center;">
-                <div class="input-field" style="display: inline-block; width: 200px; margin-right: 10px;">
-                    <input name="q" required id="search_query" type="search" class="validate"
-                        value="<?php echo htmlspecialchars($query) ?>">
-                    <label for="search_query">Pesquisa</label>
-                </div>
+            <div class="input-field">
+                <input name="q" required id="search_query" type="search" class="validate"
+                    value="<?php echo htmlspecialchars($query) ?>">
+                <label for="search_query">Digite um Nome de Usuário, IP ou MAC</label>
+            </div>
 
-                <div class="input-field" style="display: inline-block; width: 200px; margin-right: 10px;">
-                    <select name="gateway" id="gateway">
-                        <option value="todos">Todos</option>
-                        <?php
-                        foreach ($gateways as $value => $gw) {
-                            echo '<option value="' . htmlspecialchars($value) . '" ' . ($gateway === htmlspecialchars($value) ? 'selected' : '') . '>' . htmlspecialchars($gw['name']) . '</option>';
-                        }
-                        ?>
-                    </select>
-                    <label>Gateway</label>
-                </div>
+            <div class="input-field">
+                <select name="gateway" id="gateway">
+                    <option value="todos">Todos</option>
+                    <?php
+                    foreach ($gateways as $value => $gw) {
+                        echo '<option value="' . htmlspecialchars($value) . '" ' . ($gateway === htmlspecialchars($value) ? 'selected' : '') . '>' . htmlspecialchars($gw['name']) . '</option>';
+                    }
+                    ?>
+                </select>
+                <label>Gateway</label>
+            </div>
 
-                <div class="input-field" style="display: inline-block; width: 200px; margin-right: 10px;">
-                    <select name="filter" id="filter">
-                        <option value="pppoe" <?php echo $filter === 'pppoe' ? 'selected' : '' ?>>PPPoE</option>
-                        <option value="mac" <?php echo $filter === 'mac' ? 'selected' : '' ?>>MAC</option>
-                        <option value="ip" <?php echo $filter === 'ip' ? 'selected' : '' ?>>IP</option>
-                    </select>
-                    <label>Filtrar por</label>
-                </div>
-
-                <button type="submit" class="btn waves-effect waves-light">Pesquisar</button>
+            <div class="input-field">
+                <select name="filter" id="filter">
+                    <option value="name" <?php echo $filter === 'name' ? 'selected' : '' ?>>Nome</option>
+                    <option value="mac" <?php echo $filter === 'mac' ? 'selected' : '' ?>>MAC</option>
+                    <option value="ip" <?php echo $filter === 'ip' ? 'selected' : '' ?>>IP</option>
+                </select>
+                <label>Filtrar por</label>
+            </div>
+            <div>
+                <button type="submit" class="btn-large waves-effect waves-light">Pesquisar</button>
             </div>
         </form>
 
@@ -105,12 +103,11 @@ $gateways = $search->gateways;
                             $address = htmlspecialchars($result['address']);
                             $caller_id = htmlspecialchars($result['caller_id']);
                             $uptime = htmlspecialchars($result['uptime']);
-                            $manufacturer = htmlspecialchars(getFabr($caller_id));
                             echo "<tr data-gw-ip=\"$gw_ip\">
                                 <td class=\"gw-name no-wrap\">$gw_name</td>
                                 <td class=\"name\">$name</td>
                                 <td class=\"address\">$address</td>
-                                <td class=\"caller-id\">$caller_id ($manufacturer)</td>
+                                <td class=\"caller-id\">$caller_id</td>
                                 <td class=\"uptime\">$uptime</td>
                                 <td><a class=\"teal-text\" href=\"/user/?name=$name&gw=$gw_ip\"><i class=\"material-icons\">description</i></a></td>
                             </tr>";
@@ -122,13 +119,6 @@ $gateways = $search->gateways;
             ?>
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var elems = document.querySelectorAll('select');
-            var instances = M.FormSelect.init(elems, {});
-        });
-    </script>
 </body>
 
 </html>

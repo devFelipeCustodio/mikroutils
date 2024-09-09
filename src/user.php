@@ -1,12 +1,13 @@
 <?php
 
 require 'utils.php';
+require 'manufacturer.php';
 
 use \RouterOS\Client;
 use \RouterOS\Config;
 use \RouterOS\Query;
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__FILE__, 2));
 $dotenv->safeLoad();
 
 class User
@@ -19,8 +20,8 @@ class User
         try {
             $config = new Config([
                 'host' => $_GET['gw'],
-                'user' => "admin",
-                'pass' => "admin",
+                'user' => $_ENV["LOGIN"],
+                'pass' => $_ENV["PASSWORD"],
                 'port' => 8728,
                 'attempts' => 1,
                 'socket_timeout' => 2,
@@ -45,18 +46,18 @@ class User
 
         $if = $this->getInterfaceDataByName($name)[0] ?? [];
         $gateway = $this->getRouterIdentity()[0] ?? [];
-        $mac = $if['remote-address'] ?? 'N/A';
+        $manufacturer = (new Manufacturer())->getManufacturer($if['caller-id']);
         $queue = $this->getQueueDataByName($name)[0] ?? [];
         $traffic = $this->getTrafficDataByName($name)[0] ?? [];
-        $logs = $this->getLogDataByName($name, $mac) ?? [];
+        $logs = $this->getLogDataByName($name, $if['caller-id']) ?? [];
 
         $max_limit = $queue['max-limit'] ?? '0/0';
-        //explode("/", $queue['max-limit']);
         [$max_download, $max_upload] = explode("/", $max_limit);
 
         return [
             'user' => $if['user'] ?? 'N/A',
             'caller_id' => $if['caller-id'] ?? 'N/A',
+            'manufacturer' => $manufacturer ?? 'N/A',
             'interface' => $if['interface'] ?? 'N/A',
             'uptime' => $if['uptime'] ?? 'N/A',
             'gateway' => $gateway['name'] ?? 'N/A',
@@ -64,7 +65,6 @@ class User
             'remote_address' => $if['remote-address'] ?? 'N/A',
             'max_limit' => formatBytes($max_download) . "/" . formatBytes($max_upload),
             'last_link_up_time' => $traffic['last-link-up-time'] ?? 'N/A',
-            'link_downs' => $traffic['link-downs'] ?? 'N/A',
             'rx_byte' => formatBytes($traffic['rx-byte'] ?? 0),
             'tx_byte' => formatBytes($traffic['tx-byte'] ?? 0),
             'logs' => $logs

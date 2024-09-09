@@ -1,6 +1,8 @@
 form {
     display: flex;
-    justify-content: center;
+    justify-items: space-between;
+    align-items: center;
+    column-gap: 1rem;
     margin-top: 1rem;
 }
 

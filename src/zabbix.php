@@ -22,13 +22,13 @@ class Zabbix
                 [
                     'host' => 'AFINET 1',
                     'interfaces' => [
-                        ['ip' => '192.168.1.250']
+                        ['ip' => '10.244.103.1']
                     ]
                 ],
                 [
                     'host' => 'AFINET 2',
                     'interfaces' => [
-                        ['ip' => '192.168.1.251']
+                        ['ip' => '10.244.103.1']
                     ]
                 ]
             ]

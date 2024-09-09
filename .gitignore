@@ -1,4 +1,4 @@
 .env
 vendor/
 .vscode/
-.src/oui_local.txt
+data/

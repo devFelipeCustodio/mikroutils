@@ -19,13 +19,18 @@
                 await clipboard.writeText(e.target.textContent);
                 clipboardNotification('IP remoto do cliente');
             } else if (e.target.classList.contains('caller-id')) {
-                await clipboard.writeText(e.target.textContent.replace(/ *\([^)]*\) */g, ""));
+                await clipboard.writeText(
+                    e.target.textContent.replace(/ *\([^)]*\) */g, '')
+                );
                 clipboardNotification('MAC do cliente');
             }
         });
 
     document.addEventListener('DOMContentLoaded', function () {
-        const elems = document.querySelectorAll('.modal');
-        M.Modal.init(elems);
+        const modalElems = document.querySelectorAll('.modal');
+        M.Modal.init(modalElems);
+        const selectElems = document.querySelectorAll('select');
+        M.FormSelect.init(selectElems, {});
     });
+
 })();
