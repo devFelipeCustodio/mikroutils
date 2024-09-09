@@ -63,16 +63,16 @@ $has_logs = $logs ? "" : "hide";
             <div class=\"grid-container\">
             <div class=\"data\"><span class=\"title\">gateway identity: </span><span data-gw-ip=\"$gw\" class=\"gateway\">$gateway</span></div>
             <div class=\"data\"><span class=\"title\">caller ID: </span><span class=\"caller-id\">$caller_id</span></div>
-            <div class=\"data\"><span class=\"title\">manufacturer: </span><span class=\"manufacturer\">$manufacturer</span></div>
+            <div class=\"data\"><span class=\"title\">remote address:</span> <span class=\"remote-address\">$remote_address</span></div>
             <div class=\"data\"><span class=\"title\">local address: </span><span class=\"local-address\">";
                 echo str_replace("/32", "", $local_address) . "</span></div>
-            <div class=\"data\"><span class=\"title\">remote address:</span> <span class=\"remote-address\">$remote_address</span></div>
             <div class=\"data\"><span class=\"title\">interface:</span> <span class=\"interface\">$interface</span></div>
+            <div class=\"data\"><span class=\"title\">manufacturer: </span><span class=\"manufacturer\">$manufacturer</span></div>
             <div class=\"data\"><span class=\"title\">uptime: </span><span class=\"uptime\">$uptime</span></div>
             <div class=\"data\"><span class=\"title\">queue:</span> $max_limit</div>
-            <div class=\"data\"><span class=\"title\">last link up time:</span> $last_link_up_time</div>
             <div class=\"data\"><span class=\"title\">rx byte:</span> $rx_byte</div>
             <div class=\"data\"><span class=\"title\">tx byte:</span> $tx_byte</div>
+            <div class=\"data\"><span class=\"title\">last link up time:</span> $last_link_up_time</div>
             </div>
             <div class=\"log-container $has_logs\">
             <h2>Logs</h2>
