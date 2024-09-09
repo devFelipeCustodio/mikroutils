@@ -2,13 +2,11 @@
 
 require '../vendor/autoload.php';
 require 'zabbix.php';
+require 'dotenv.php';
 
 use \RouterOS\Client;
 use \RouterOS\Config;
 use \RouterOS\Query;
-
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__FILE__, 2));
-$dotenv->safeLoad();
 
 class Search
 {

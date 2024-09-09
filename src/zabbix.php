@@ -1,9 +1,8 @@
 <?php
 
 require '../vendor/autoload.php';
+require 'dotenv.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__FILE__, 2));
-$dotenv->safeLoad();
 
 class Zabbix
 {
