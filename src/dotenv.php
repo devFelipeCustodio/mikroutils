@@ -1,5 +1,5 @@
 <?php
-require '../vendor/autoload.php';
+require dirname(__FILE__, 2) . '/vendor/autoload.php';
 
-Dotenv\Dotenv::createImmutable(dirname(__FILE__, 2));
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__FILE__, 2));
 $dotenv->safeLoad();
