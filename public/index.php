@@ -68,17 +68,16 @@ $gateways = $search->gateways;
 
         <div class="results">
             <?php if ($query) {
-                $zabbix_search = new Search();
-                $results = $zabbix_search->findUserByFilter($query, $filter);
-                if ($zabbix_search->zabbix_error) {
+                $results = $search->findUserByFilter($query, $filter);
+                if ($search->zabbix_error) {
                     echo "<p>Falha durante a conexão com o Zabbix.</p>";
                 } else {
-                    if ($zabbix_search->client_errors) {
+                    if ($search->client_errors) {
                         echo "<button data-target=\"modal1\" class=\"btn-floating btn-large waves-effect waves-light red modal-trigger\"><i class=\"material-icons\">warning</i></button>
                             <div id=\"modal1\" class=\"modal\">
                                 <div class=\"modal-content\">
                                 <h2>Relatório de erros</h2>";
-                        foreach ($zabbix_search->client_errors as $error) {
+                        foreach ($search->client_errors as $error) {
                             echo "<p>" . htmlspecialchars($error['gw_name']) . ": " . htmlspecialchars($error['error_message']) . "</p>";
                         }
                         echo "</div>

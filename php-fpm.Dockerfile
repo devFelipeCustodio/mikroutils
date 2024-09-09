@@ -8,6 +8,10 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 ENV COMPOSER_ALLOW_SUPERUSER=1 
 
+USER 0
+
+RUN chmod 777 -R /var/www/html
+
 RUN apt update && apt install git -y
 
 COPY composer* /var/www/html

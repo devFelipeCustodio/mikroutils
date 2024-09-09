@@ -9,6 +9,7 @@ use \RouterOS\Client;
 use \RouterOS\Config;
 use \RouterOS\Query;
 
+
 class Search
 {
     private $clients = [];
@@ -18,6 +19,8 @@ class Search
     public $client_errors = [];
     public function __construct()
     {
+        ini_set('max_execution_time', '0');
+
         $zabbix = new Zabbix();
 
         try {
@@ -26,6 +29,10 @@ class Search
             $this->zabbix_error = $th->getMessage();
             return;
         }
+    }
+
+    public function getClients(){
+
 
         $this->gatewaysfilter = $this->gateways;
         if (isset($_GET['gateway']) && $_GET['gateway'] != "todos") {
@@ -69,6 +76,7 @@ class Search
 
     public function findUserByFilter($value, $filter)
     {
+        $this->getClients();
         $filtered = [];
         $query = new Query('/ppp/active/print');
         $responses = [];
