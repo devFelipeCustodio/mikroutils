@@ -92,9 +92,13 @@ class Search
                 ]
             );
         }
-
+        $count = 0;
         foreach ($responses as $response) {
             foreach ($response['results'] as $result) {
+                if ($count >= 200) {
+                    break;
+                }
+                $count++;
                 $match = false;
                 switch ($filter) {
                     case 'mac':
