@@ -1,6 +1,6 @@
 <?php
 
-require '../vendor/autoload.php';
+require dirname(__FILE__, 2) . '/vendor/autoload.php';
 require 'dotenv.php';
 
 

@@ -1,5 +1,5 @@
 <?php
-require '../src/search.php';
+require dirname(__FILE__, 2) . '/src/search.php';
 
 $query = $_GET['q'] ?? '';
 $filter = $_GET['filter'] ?? 'name';

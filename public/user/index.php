@@ -1,7 +1,7 @@
 <?php
 
-require '../../vendor/autoload.php';
-require '../../src/user.php';
+require dirname(__FILE__, 3) . '/vendor/autoload.php';
+require dirname(__FILE__, 3) . '/src/user.php';
 
 $gw = htmlspecialchars($_GET['gw'] ?? '');
 $name = htmlspecialchars($_GET['name'] ?? '');
