@@ -14,6 +14,7 @@ class Search
     private $gateways;
     public $zabbix_error;
     public $client_errors = [];
+
     public function __construct()
     {
         $zabbix = new Zabbix();
@@ -53,7 +54,6 @@ class Search
 
 
     }
-
 
 
     public function findUserByName($value)
