@@ -31,7 +31,8 @@ class Search
         }
     }
 
-    public function getClients(){
+    public function getClients()
+    {
 
 
         $this->gatewaysfilter = $this->gateways;
@@ -98,7 +99,6 @@ class Search
                 if ($count >= 200) {
                     break;
                 }
-                $count++;
                 $match = false;
                 switch ($filter) {
                     case 'mac':
@@ -112,6 +112,7 @@ class Search
                         break;
                 }
                 if ($match) {
+                    $count++;
                     array_push(
                         $filtered,
                         [
