@@ -1,17 +1,15 @@
 form {
-    display: flex;
-    justify-items: space-between;
-    align-items: center;
-    column-gap: 1rem;
     margin-top: 1rem;
+    width: 100%;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
 }
 
 .results {
     height: 100%;
-}
-
-.input-field {
-    width: 100%;
 }
 
 .no-wrap {
@@ -32,7 +30,7 @@ form {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-.btn-floating  {
+.btn-floating {
     position: fixed;
     bottom: 50px;
     right: 50px;

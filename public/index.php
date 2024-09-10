@@ -35,34 +35,34 @@ $gateways = $search->gateways;
     <?php require './navbar.php' ?>
     <div class="container">
         <form action="/" method="GET">
-            <div class="input-field">
-                <input name="q" required id="search_query" type="search" class="validate"
-                    value="<?php echo htmlspecialchars($query) ?>">
-                <label for="search_query">Digite um Nome de Usuário, IP ou MAC</label>
-            </div>
-
-            <div class="input-field">
-                <select name="gateway" id="gateway">
-                    <option value="todos">Todos</option>
-                    <?php
-                    foreach ($gateways as $value => $gw) {
-                        echo '<option value="' . htmlspecialchars($value) . '" ' . ($gateway === htmlspecialchars($value) ? 'selected' : '') . '>' . htmlspecialchars($gw['name']) . '</option>';
-                    }
-                    ?>
-                </select>
-                <label>Gateway</label>
-            </div>
-
-            <div class="input-field">
-                <select name="filter" id="filter">
-                    <option value="name" <?php echo $filter === 'name' ? 'selected' : '' ?>>Nome</option>
-                    <option value="mac" <?php echo $filter === 'mac' ? 'selected' : '' ?>>MAC</option>
-                    <option value="ip" <?php echo $filter === 'ip' ? 'selected' : '' ?>>IP</option>
-                </select>
-                <label>Filtrar por</label>
-            </div>
-            <div>
-                <button type="submit" class="btn-large waves-effect waves-light">Pesquisar</button>
+            <div class="row">
+                <div class="input-field query-container col s4">
+                    <input name="q" required id="search_query" type="search" class="validate"
+                        value="<?php echo htmlspecialchars($query) ?>">
+                    <label for="search_query">Digite um usuário, IP ou MAC</label>
+                </div>
+                 <div class="input-field gateway-select-container col s5">
+                    <select name="gateway" id="gateway">
+                        <option value="todos">Todos</option>
+                        <?php
+                        foreach ($gateways as $value => $gw) {
+                            echo '<option value="' . htmlspecialchars($value) . '" ' . ($gateway === htmlspecialchars($value) ? 'selected' : '') . '>' . htmlspecialchars($gw['name']) . '</option>';
+                        }
+                        ?>
+                    </select>
+                    <label>Gateway</label>
+                </div>
+                 <div class="input-field col s2">
+                    <select name="filter" id="filter">
+                        <option value="name" <?php echo $filter === 'name' ? 'selected' : '' ?>>Nome</option>
+                        <option value="mac" <?php echo $filter === 'mac' ? 'selected' : '' ?>>MAC</option>
+                        <option value="ip" <?php echo $filter === 'ip' ? 'selected' : '' ?>>IP</option>
+                    </select>
+                    <label>Filtrar por</label>
+                </div>
+                <div class="input-field hide">
+                    <button type="submit" class="btn-large waves-effect waves-light">Pesquisar</button>
+                </div>
             </div>
         </form>
 

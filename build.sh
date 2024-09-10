@@ -1,0 +1,1 @@
+docker build . -t mikroutils && docker run --name mikroutils -d -p 80:80 mikroutils
