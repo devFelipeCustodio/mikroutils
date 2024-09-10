@@ -14,49 +14,6 @@ class Search
     private $gateways;
     public $zabbix_error;
     public $client_errors = [];
-
-    // public function __construct()
-    // {
-    //     $zabbix = new Zabbix();
-    //     try {
-    //         $this->gateways = $zabbix->host_get(["output" => ["host"], "selectInterfaces" => ["ip"]]);
-    //     } catch (\Throwable $th) {
-    //         $this->zabbix_error = $th->getMessage();
-    //         return;
-    //     }
-    //     foreach ($this->gateways as $gw) {
-    //         $config = new Config(
-    //             [
-    //                 'host' => $gw["ip"],
-    //                 'user' => $_SERVER["LOGIN"],
-    //                 'pass' => $_SERVER["PASSWORD"],
-    //                 'port' => 8728,
-    //                 'attempts' => 1
-    //             ]
-    //         );
-    //         try {
-    //             array_push(
-    //                 $this->clients,
-    //                 [
-    //                     "gw_name" => $gw['name'],
-    //                     "gw_ip" => $gw['ip'],
-    //                     "instance" => new Client($config)
-    //                 ]
-    //             );
-    //         } catch (\Throwable $th) {
-    //             array_push($this->client_errors, [
-    //                 "gw_name" => $gw['name'],
-    //                 "error_message" => $th->getMessage()
-    //             ]);
-    //         }
-
-    //     }
-
-
-    // }
-
-
-
     public function __construct()
     {
         $zabbix = new Zabbix();
