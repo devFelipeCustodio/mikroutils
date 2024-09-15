@@ -18,7 +18,6 @@ $result = $pppoe_user->getUserByName($name);
     "interface" => $interface,
     "max_limit" => $max_limit,
     "last_link_up_time" => $last_link_up_time,
-    "link_downs" => $link_downs,
     "rx_byte" => $rx_byte,
     "tx_byte" => $tx_byte,
     "local_address" => $local_address,

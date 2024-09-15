@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ros_version=7.15.3
 get_interface_name=$(VBoxManage list bridgedifs | awk 'NR==1 {print $2; exit}')
 
