@@ -1,4 +1,6 @@
-.env
+*.env
 vendor/
 .vscode/
 data/
+*.vdi
+*.zip
