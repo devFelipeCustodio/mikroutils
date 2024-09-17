@@ -24,7 +24,7 @@ do
       --port 0 \
       --type hdd \
       --medium router_OS_$n.vdi
-    VBoxManage modifyvm "router_OS_$n" --memory 128 --vram 8 --nic1 bridged --bridgeadapter1 $get_interface_name --nic2 bridged --bridgeadapter2 $get_interface_name
+    VBoxManage modifyvm "router_OS_$n" --memory 128 --vram 8 --nic1 bridged --bridgeadapter1 $get_interface_name
   fi
   VBoxManage startvm "router_OS_$n"
 done

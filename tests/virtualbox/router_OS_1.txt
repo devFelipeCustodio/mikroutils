@@ -1,12 +1,7 @@
-/ip pool add name=pppoe_local_pool ranges=10.0.0.2-10.0.0.254
-/ip pool add name=pppoe_remote_pool ranges=128.0.0.0-191.255.0.0
-/ppp profile add name=pppoe_profile local-address=pppoe_local_pool remote-address=pppoe_remote_pool
-/interface pppoe-server server add default-profile=pppoe_profile disabled=no interface=ether2 service-name=pppoe_service
-/ppp secret add name=short@user.com password=1234 profile=pppoe_profile service=pppoe
-/ppp secret add name=really_long_name@user.com password=1234 profile=pppoe_profile service=pppoe
+/interface pppoe-client add add-default-route=yes disabled=no interface=ether1 name=pppoe-out1 password=1234 user=short@user.com
+/interface pppoe-client add add-default-route=yes disabled=no interface=ether1 name=pppoe-out2 password=1234 user=really_long_name@user.com
 :for i from=1 to=75 do={
-    :local name ("a" . $i . "@user.com")
-    /ppp secret add name=$name password=1234 profile=pppoe_profile service=pppoe}
-delay 1
-/queue simple add max-limit=100M/100M name=queue1 target=<pppoe-really_long_name@user.com>,<pppoe-short@user.com>
+    :local user ("a" . $i . "@user.com")
+    :local name ("pppoe-out" . $i+2)
+    /interface pppoe-client add add-default-route=yes disabled=no interface=ether1 name=$name password=1234 user=$user}
 
