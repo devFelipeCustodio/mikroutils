@@ -1,12 +1,16 @@
 #!/bin/bash
 
+if ! pwd | grep "/tests/virtualbox"; then
+  cd tests/virtualbox/disk_images
+fi
+
 ros_version=7.15.3
 get_interface_name=$(VBoxManage list bridgedifs | awk 'NR==1 {print $2; exit}')
 
 if ! test -f chr-$ros_version.vdi; then
   wget -O chr-$ros_version.vdi.zip "https://download.mikrotik.com/routeros/$ros_version/chr-$ros_version.vdi.zip"
-  unzip chr-$ros_version.vdi.zip
-  rm chr-$ros_version.vdi.zip
+  unzip chr-$ros_version.vdi.zip -d 
+  rm chr-$ros_version.vdi.zip 
 fi
 
 vm_names=$(vboxmanage list vms | awk '{print $1}' | tr -d '"')

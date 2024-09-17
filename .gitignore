@@ -2,6 +2,7 @@
 vendor/
 .vscode/
 data/
+**/disk_images/
 *.vdi
 *.zip
 zabbix.json
