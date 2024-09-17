@@ -22,12 +22,12 @@ $gateways = $search->gateways;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./assets/style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script defer
         src="https://unpkg.com/clipboard-polyfill/dist/es5/window-var/clipboard-polyfill.window-var.promise.es5.js"></script>
-    <script defer src="./index.js"></script>
+    <script defer src="./assets/index.js"></script>
     <title>Mikroutils :: <?php echo htmlspecialchars($query) ?: "Home" ?></title>
 </head>
 
@@ -108,7 +108,7 @@ $gateways = $search->gateways;
                                 <td class=\"address\">$address</td>
                                 <td class=\"caller-id\">$caller_id</td>
                                 <td class=\"uptime\">$uptime</td>
-                                <td><a class=\"teal-text\" href=\"/user/?name=$name&gw=$gw_ip\"><i class=\"material-icons\">description</i></a></td>
+                                <td><a class=\"teal-text\" href=\"/user.php?name=$name&gw=$gw_ip\"><i class=\"material-icons\">description</i></a></td>
                             </tr>";
                         }
                         echo "</table>";
