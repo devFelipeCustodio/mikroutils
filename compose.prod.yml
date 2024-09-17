@@ -4,14 +4,6 @@ services:
       context: .
       dockerfile: Dockerfile.php
       target: final
-    develop:
-      watch:
-        - action: sync
-          path: ./
-          target: /var/www/html
-
-    extra_hosts:
-      - host.docker.internal:host-gateway
     networks:
       - dokploy-network
 
