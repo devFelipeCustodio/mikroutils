@@ -26,6 +26,8 @@ class Manufacturer
         if ($remoteFileLastModified - 604800 > $localFileTimestamp) { // Checar apenas uma vez por semana
             $fileContent = @file_get_contents($remoteFile);
             if ($fileContent !== false) {
+                if (!is_dir(dirname($this->oui_path)))
+                    mkdir(dirname(__FILE__, 3) . '/data');
                 file_put_contents($localFile, $fileContent);
             }
         }
