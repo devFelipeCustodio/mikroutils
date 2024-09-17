@@ -7,6 +7,6 @@
 :for i from=1 to=75 do={
     :local name ("a" . $i . "@user.com")
     /ppp secret add name=$name password=1234 profile=pppoe_profile service=pppoe}
-delay 1
+delay 2
 /queue simple add max-limit=100M/100M name=queue1 target=<pppoe-really_long_name@user.com>,<pppoe-short@user.com>
 
