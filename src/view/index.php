@@ -1,5 +1,5 @@
 <?php
-require dirname(__FILE__, 2) . '/src/search.php';
+require dirname(__FILE__, 2) . '/php/search.php';
 
 $query = $_GET['q'] ?? '';
 $filter = $_GET['filter'] ?? 'name';
@@ -32,7 +32,7 @@ $gateways = $search->gateways;
 </head>
 
 <body>
-    <?php require './navbar.php' ?>
+    <?php require './components/navbar.php' ?>
     <div class="container">
         <form action="/" method="GET">
             <div class="row">

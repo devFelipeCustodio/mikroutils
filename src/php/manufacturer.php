@@ -5,7 +5,7 @@ class Manufacturer
     private $oui_path;
     function __construct()
     {
-        $this->oui_path = dirname(__FILE__, 2) . '/data/oui.csv';
+        $this->oui_path = dirname(__FILE__, 3) . '/data/oui.csv';
         $this->updateOuiData();
 
     }
