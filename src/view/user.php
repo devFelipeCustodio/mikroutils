@@ -1,7 +1,7 @@
 <?php
 
 require dirname(__FILE__, 3) . '/vendor/autoload.php';
-require dirname(__FILE__, 3) . '/src/user.php';
+require dirname(__FILE__, 3) . '/src/php/user.php';
 
 $gw = htmlspecialchars($_GET['gw'] ?? '');
 $name = htmlspecialchars($_GET['name'] ?? '');
@@ -35,17 +35,17 @@ $has_logs = $logs ? "" : "hide";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./assets/user/style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script defer
         src="https://unpkg.com/clipboard-polyfill/dist/es5/window-var/clipboard-polyfill.window-var.promise.es5.js"></script>
-    <script defer src="./index.js"></script>
+    <script defer src="./assets/user/index.js"></script>
     <title>Mikroutils :: <?php echo $user ?? "Usuário inválido" ?></title>
 </head>
 
 <body>
-    <?php require '../navbar.php'; ?>
+    <?php require './components/navbar.php' ?>
     <div class="container">
         <main>
             <?php if (!$pppoe_user->has_router_instance()) {
