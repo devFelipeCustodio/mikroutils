@@ -18,7 +18,7 @@ services:
   nginx:
     image: nginx
     ports:
-      - "3434:80"
+      - "80:80"
     volumes:
       - ./src:/var/www/html/src/
       - ./public:/var/www/html/public/
