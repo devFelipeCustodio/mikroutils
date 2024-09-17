@@ -28,7 +28,7 @@ class Zabbix
         $response = $this->post_request($data);
         $filtered = [];
         foreach ($response['result'] as $result) {
-            array_push($filtered, ["name" => $result['host'], "ip" => $result['interfaces'][0]['ip']]);
+            array_push($filtered, ["name" => substr($result['host'], strpos($result['host'], "GW-")), "ip" => $result['interfaces'][0]['ip']]);
         }
         return $filtered;
     }

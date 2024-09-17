@@ -41,7 +41,7 @@ $gateways = $search->gateways;
                         value="<?php echo htmlspecialchars($query) ?>">
                     <label for="search_query">Digite um usuário, IP ou MAC</label>
                 </div>
-                 <div class="input-field gateway-select-container col s5">
+                <div class="input-field gateway-select-container col s5">
                     <select name="gateway" id="gateway">
                         <option value="todos">Todos</option>
                         <?php
@@ -52,7 +52,7 @@ $gateways = $search->gateways;
                     </select>
                     <label>Gateway</label>
                 </div>
-                 <div class="input-field col s2">
+                <div class="input-field col s2">
                     <select name="filter" id="filter">
                         <option value="name" <?php echo $filter === 'name' ? 'selected' : '' ?>>Nome</option>
                         <option value="mac" <?php echo $filter === 'mac' ? 'selected' : '' ?>>MAC</option>
@@ -68,6 +68,7 @@ $gateways = $search->gateways;
 
         <div class="results">
             <?php if ($query) {
+                $query = str_replace(' ', '', $query);
                 $results = $search->findUserByFilter($query, $filter);
                 if ($search->zabbix_error) {
                     echo "<p>Falha durante a conexão com o Zabbix.</p>";
