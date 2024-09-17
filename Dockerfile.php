@@ -15,6 +15,7 @@ RUN --mount=type=bind,source=./composer.json,target=composer.json \
 FROM php:8.2-fpm as base
 RUN docker-php-ext-install sockets
 COPY ./src /var/www/html/src
+RUN chown -R www-data /var/www/html
 
 FROM base as development
 RUN pecl install xdebug-3.2.1 \
