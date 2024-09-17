@@ -1,0 +1,14 @@
+{
+    "api_jsonrpc.php": {
+        "result": [
+            {
+                "host": "",
+                "interfaces": [
+                    {
+                        "ip": ""
+                    }
+                ]
+            }
+        ]
+    }
+}

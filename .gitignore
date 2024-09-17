@@ -4,3 +4,4 @@ vendor/
 data/
 *.vdi
 *.zip
+zabbix.json
