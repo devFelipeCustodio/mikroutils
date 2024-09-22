@@ -6,6 +6,8 @@ services:
       target: final
     networks:
       - dokploy-network
+    env_file:
+      - path: .env
 
   nginx:
     image: nginx
