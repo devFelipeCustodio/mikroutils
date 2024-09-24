@@ -22,7 +22,7 @@ class User
                 'pass' => $_SERVER["PASSWORD"],
                 'port' => 8728,
                 'attempts' => 1,
-                'socket_timeout' => 2,
+                'socket_timeout' => 10,
                 'timeout' => 2
             ]);
             $this->router_instance = new Client($config);
