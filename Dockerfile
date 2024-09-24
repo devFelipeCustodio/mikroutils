@@ -16,6 +16,8 @@ COPY . /var/www/html
 
 WORKDIR /var/www/html
 
+RUN mkdir data && chmod 777 data
+
 RUN composer install
 
 EXPOSE 80
