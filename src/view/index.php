@@ -1,4 +1,5 @@
 <?php
+require dirname(__FILE__, 2) . '/php/utils.php';
 require dirname(__FILE__, 2) . '/php/search.php';
 
 $query = $_GET['q'] ?? '';
@@ -46,7 +47,7 @@ $gateways = $search->gateways;
                         <option value="todos">Todos</option>
                         <?php
                         foreach ($gateways as $value => $gw) {
-                            echo '<option value="' . htmlspecialchars($value) . '" ' . ($gateway === htmlspecialchars($value) ? 'selected' : '') . '>' . htmlspecialchars($gw['name']) . '</option>';
+                            echo '<option value="' . htmlspecialchars($value) . '" ' . ($gateway === htmlspecialchars($value) ? 'selected' : '') . '>' . htmlspecialchars(formatGatewayName($gw['name'])) . '</option>';
                         }
                         ?>
                     </select>
@@ -68,6 +69,8 @@ $gateways = $search->gateways;
 
         <div class="results">
             <?php if ($query) {
+                $search = new Search();
+                $gateways = $search->gateways;
                 $results = $search->findUserByFilter($query, $filter);
                 if ($search->zabbix_error) {
                     echo "<p>Falha durante a conexão com o Zabbix.</p>";
@@ -96,7 +99,7 @@ $gateways = $search->gateways;
                         </thead>
                         <tbody>";
                         foreach ($results as $result) {
-                            $gw_name = htmlspecialchars($result['gw_name']);
+                            $gw_name = htmlspecialchars(formatGatewayName($result['gw_name']));
                             $gw_ip = htmlspecialchars($result['gw_ip']);
                             $name = htmlspecialchars($result['name']);
                             $address = htmlspecialchars($result['address']);

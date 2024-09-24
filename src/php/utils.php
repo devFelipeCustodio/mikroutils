@@ -9,3 +9,8 @@
     $bytes /= pow(1000, $pow);
     return round($bytes, $precision) . $units[$pow];
 }
+
+function formatGatewayName($name)
+{
+    return preg_replace("/(^.*\-GW\-)/", "", $name);
+}
