@@ -33,4 +33,10 @@
         M.FormSelect.init(selectElems, {});
     });
 
+    const queryForm = document.querySelector('form');
+    queryForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        e.originalTarget[0].value = e.originalTarget[0].value.trim();
+        queryForm.submit();
+    });
 })();
