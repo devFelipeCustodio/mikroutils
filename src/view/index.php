@@ -42,18 +42,22 @@ $gateways = $search->gateways;
                         value="<?php echo htmlspecialchars($query) ?>">
                     <label for="search_query">Digite um usuário, IP ou MAC</label>
                 </div>
-                 <div class="input-field gateway-select-container col s5">
+                <div class="input-field gateway-select-container col s5">
                     <select name="gateway" id="gateway">
                         <option value="todos">Todos</option>
                         <?php
                         foreach ($gateways as $value => $gw) {
-                            echo '<option value="' . htmlspecialchars($value) . '" ' . ($gateway === htmlspecialchars($value) ? 'selected' : '') . '>' . htmlspecialchars(formatGatewayName($gw['name'])) . '</option>';
+                            echo '<option value="' .
+                                htmlspecialchars($value) . '" ' .
+                                ($gateway === htmlspecialchars($value) ? 'selected' : '') .
+                                '>' . htmlspecialchars(formatGatewayName($gw['name'])) .
+                                '</option>';
                         }
                         ?>
                     </select>
                     <label>Gateway</label>
                 </div>
-                 <div class="input-field col s2">
+                <div class="input-field col s2">
                     <select name="filter" id="filter">
                         <option value="name" <?php echo $filter === 'name' ? 'selected' : '' ?>>Nome</option>
                         <option value="mac" <?php echo $filter === 'mac' ? 'selected' : '' ?>>MAC</option>
@@ -75,46 +79,44 @@ $gateways = $search->gateways;
                 if ($search->zabbix_error) {
                     echo "<p>Falha durante a conexão com o Zabbix.</p>";
                 } else {
-                    if ($search->client_errors) {
-                        echo "<button data-target=\"modal1\" class=\"btn-floating btn-large waves-effect waves-light red modal-trigger\"><i class=\"material-icons\">warning</i></button>
-                            <div id=\"modal1\" class=\"modal\">
-                                <div class=\"modal-content\">
-                                <h2>Relatório de erros</h2>";
-                        foreach ($search->client_errors as $error) {
-                            echo "<p>" . htmlspecialchars($error['gw_name']) . ": " . htmlspecialchars($error['error_message']) . "</p>";
-                        }
-                        echo "</div>
-                        </div>";
+                    if ($search->client_errors) { ?>
+                        <button data-target="modal1" class="btn-floating btn-large waves-effect waves-light red modal-trigger"><i
+                                class="material-icons">warning</i></button>
+                        <div id="modal1" class="modal">
+                            <div class="modal-content">
+                                <h2>Relatório de erros</h2><?php
+                                foreach ($search->client_errors as $error) {
+                                    echo "<p>" . htmlspecialchars($error['gw_name']) . ": " . htmlspecialchars($error['error_message']) . "</p>";
+                                } ?>
+                            </div>
+                        </div><?php
                     }
                     if (!$results) {
                         echo "<p>Nenhum resultado encontrado.</p>";
-                    } else {
-                        echo "<table class=\"centered responsive-table\">
-                        <thead>
-                            <th>Gateway</th>
-                            <th>Name</th>
-                            <th>Address</th>
-                            <th>MAC</th>
-                            <th>Uptime</th>
-                        </thead>
-                        <tbody>";
-                        foreach ($results as $result) {
-                            $gw_name = htmlspecialchars(formatGatewayName($result['gw_name']));
-                            $gw_ip = htmlspecialchars($result['gw_ip']);
-                            $name = htmlspecialchars($result['name']);
-                            $address = htmlspecialchars($result['address']);
-                            $caller_id = htmlspecialchars($result['caller_id']);
-                            $uptime = htmlspecialchars($result['uptime']);
-                            echo "<tr data-gw-ip=\"$gw_ip\">
-                                <td class=\"gw-name no-wrap\">$gw_name</td>
-                                <td class=\"name\">$name</td>
-                                <td class=\"address\">$address</td>
-                                <td class=\"caller-id\">$caller_id</td>
-                                <td class=\"uptime\">$uptime</td>
-                                <td><a class=\"teal-text\" href=\"/user.php?name=$name&gw=$gw_ip\"><i class=\"material-icons\">description</i></a></td>
-                            </tr>";
-                        }
-                        echo "</table>";
+                    } else { ?>
+                        <table class="centered responsive-table">
+                            <thead>
+                                <th>Gateway</th>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>MAC</th>
+                                <th>Uptime</th>
+                            </thead>
+                            <tbody><?php
+                            foreach ($results as $result) { ?>
+                                    <tr data-gw-ip="<?php echo $result['gw_ip'] ?>">
+                                        <td class="gw-name no-wrap"> <?php echo formatGatewayName($result['gw_name']) ?></td>
+                                        <td class="name"><?php echo $result['name'] ?></td>
+                                        <td class="address"><?php echo $result['address'] ?></td>
+                                        <td class="caller-id"><?php echo $result['caller_id'] ?></td>
+                                        <td class="uptime"><?php echo $result['uptime'] ?></td>
+                                        <td><a class="teal-text" href="/user.php?name=
+                                            <?php echo $result['name'] . "&gw=" . $result['gw_ip'] ?>">
+                                                <i class=" material-icons">description</i></a>
+                                        </td>
+                                    </tr><?php
+                            } ?>
+                                <table><?php
                     }
                 }
             }
